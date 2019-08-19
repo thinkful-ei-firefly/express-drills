@@ -1,24 +1,24 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const morgan = require("morgan");
-app.use(morgan("dev"));
+const morgan = require('morgan');
+app.use(morgan('dev'));
 
-app.get("/sum", (req, res) => {
+app.get('/sum', (req, res) => {
   const { a, b } = req.query;
   if (!a || !b) {
-    return res.status(404).send("must provide both values");
+    return res.status(404).send('must provide both values');
   }
   const c = parseFloat(a) + parseFloat(b);
   res.send(`The sum of ${a} and ${b} is ${c}`);
 });
 
-app.get("/cipher", (req, res) => {
+app.get('/cipher', (req, res) => {
   const { text, shift } = req.query;
   if (!text || !shift) {
-    return res.status(404).send("Must provide both queries.");
+    return res.status(404).send('Must provide both queries.');
   }
   const shiftInt = parseInt(shift);
-  const charArr = text.split("");
+  const charArr = text.split('');
   const final = charArr.map(char => {
     const charNum = char.toUpperCase().charCodeAt(0);
     if (charNum + shiftInt > 90) {
@@ -28,20 +28,20 @@ app.get("/cipher", (req, res) => {
       return String.fromCharCode(charNum + shiftInt);
     }
   });
-  res.send(`The shifted text is: ${final.join("")}.`);
+  res.send(`The shifted text is: ${final.join('')}.`);
 });
 
-app.get("/lotto", (req, res) => {
+app.get('/lotto', (req, res) => {
   const { arr } = req.query;
   if (!arr || arr.length !== 6) {
     return res
       .status(404)
-      .send("arr is required and must contain exactly 6 values");
+      .send('arr is required and must contain exactly 6 values');
   }
   let counter = 0;
   const intArr = arr.map(num => parseInt(num));
   console.log(intArr);
-  let compareArr = [1, 2, 3, 4, 5, 6];
+  let compareArr = [];
   for (let i = 1; i <= 6; i++) {
     compareArr.push(Math.floor(Math.random() * 20));
   }
@@ -55,14 +55,14 @@ app.get("/lotto", (req, res) => {
   }
 
   if (counter < 4) {
-    res.send("Sorry, you lose");
+    res.send('Sorry, you lose');
   } else if (counter === 4) {
-    res.send("Congratulations, you win a free ticket");
+    res.send('Congratulations, you win a free ticket');
   } else if (counter === 5) {
-    res.send("Congratulations! You win $100!");
+    res.send('Congratulations! You win $100!');
   } else if (counter === 6) {
-    res.send("Wow! Unbelievable! You could have won the mega millions!");
+    res.send('Wow! Unbelievable! You could have won the mega millions!');
   }
 });
 
-app.listen(3000, () => console.log("connected on port 3000"));
+app.listen(3000, () => console.log('connected on port 3000'));
